@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+    .disable {text-decoration: line-through; color: #999; font-size: 0.8em;}
+    .item {text-decoration: none; color:hotpink; font-size: 1.0em;}
+</style>
+
+</head>
+<body>
+<h3>할일 목록</h3>
+<nav><button id="btnAdd">+ 추가</button></nav>
+<ul id="ulTodo">
+    <!-- <li><a href="#">- 삭제</a> <span class="item">공부하기 (08-08 14:22:12)</span></li>
+    <li><a href="#">- 삭제</a> <span class="item">공부하기 (08-08 14:22:12)</span></li>
+    <li><a href="#">- 삭제</a> <span class="item">공부하기 (08-08 14:22:12)</span></li> -->
+</ul>
+<script>
+    let btnAdd = document.getElementById('btnAdd')
+    btnAdd.addEventListener('click', event => {
+        let content = prompt('할일을 입력하세요');
+        if(content == null || content.trim() == '') return;
+        let ul = document.getElementById('ulTodo');
+        let li = document.createElement('li');
+        let a = document.createElement('a');
+        let span = document.createElement('span');
+        let item = {"content": content, "status": null, "createDt": new Date()};
+
+        a.addEventListener('click', evt => {
+            ul.removeChild(li);
+            
+        });
+        a.innerText = '- 삭제';
+        a.href = '#';
+        
+        span.innerHTML = " " + content + ' (' + new Date().toISOString() + ')';
+        span.classList.add('item');
+        span.addEventListener('click', evt2 => {
+            
+            if(span.classList.contains('item')) {
+                span.classList.remove('item');
+                span.classList.add('disable');
+                item.status = 'done';
+            } else {
+                span.classList.remove('disable');
+                span.classList.add('item');
+                item.status = null;
+            }
+            // span.classList.toggle('disable');
+        });
+
+        
+
+
+        li.appendChild(a);
+        li.appendChild(span);
+        
+        ul.appendChild(li);
+
+        let itemsJson = localStorage.getItem('todo');
+        let items = JSON.parse(itemsJson) || [];
+        items.push(item);
+        itemsJson = JSON.stringify(items);
+
+        localStorage.setItem('todo', itemsJson);
+    });
+
+</script>
+</body>
+</html>
