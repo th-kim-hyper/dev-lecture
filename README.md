@@ -1,2 +1,2 @@
-# spring-boot-demo
-스프링 교육
+# dev lecture
+웹 개발 교육
